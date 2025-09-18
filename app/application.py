@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # Needed for session handling
+app.secret_key = "supersecretkey"  
 
-# Demo credentials
 VALID_EMAIL = "hire-me@anshumat.org"
 VALID_PASSWORD = "HireMe@2025!"
 
@@ -44,4 +43,4 @@ def logout():
 if __name__ == "__main__":
     app.run(debug=True)
 
-application = app  # For Gunicorn to find the app
+application = app  
