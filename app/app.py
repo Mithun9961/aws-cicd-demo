@@ -5,7 +5,7 @@ app.secret_key = "supersecretkey"  # Needed for session handling
 
 # Demo credentials
 VALID_EMAIL = "hire-me@anshumat.org"
-VALID_PASSWORD = "HireMe@2025!"
+VALID_PASSWORD = "HireMe@2025"
 
 
 @app.route("/")
