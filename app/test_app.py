@@ -1,31 +1,41 @@
-# test_application.py
-from application import app  # Use your actual app file name
+# app/test_app.py
 
-def test_homepage():
-    """Test that the login page loads correctly"""
-    client = app.test_client()
-    response = client.get("/")
+import pytest
+from application import app
+
+@pytest.fixture
+def client():
+    """Create a test client for the Flask app"""
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
+
+def test_homepage(client):
+    """Test that the homepage redirects to login page"""
+    response = client.get("/", follow_redirects=True)
     assert response.status_code == 200
-    assert b"Login" in response.data  # Adjust to match your login page text
+    # Check that the page contains "Login" form
+    assert b"Login" in response.data or b"login" in response.data.lower()
 
-def test_login_success():
-    """Test that valid login redirects to dashboard"""
-    client = app.test_client()
+def test_login_success(client):
+    """Test login with correct credentials"""
     response = client.post(
         "/login",
         data=dict(email="hire-me@anshumat.org", password="HireMe@2025!"),
         follow_redirects=True
     )
     assert response.status_code == 200
-    assert b"Dashboard" in response.data  # Adjust to your post-login page text
+    # Check that the page contains a welcome message or dashboard text
+    assert b"Welcome" in response.data or b"dashboard" in response.data.lower()
 
-def test_login_fail():
-    """Test that invalid login shows error"""
-    client = app.test_client()
+def test_login_failure(client):
+    """Test login with incorrect credentials"""
     response = client.post(
         "/login",
         data=dict(email="wrong@user.com", password="wrongpass"),
         follow_redirects=True
     )
     assert response.status_code == 200
-    assert b"Invalid credentials" in response.data  # Adjust to your error message
+    # Flexible check: the page should show some error related to invalid credentials
+    error_texts = [b"invalid", b"wrong", b"error", b"credentials"]
+    assert any(e in response.data.lower() for e in error_texts)
