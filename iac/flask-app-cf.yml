@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Flask Login App EB Environment
+
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: S3 bucket containing the deploy.zip
+  S3Key:
+    Type: String
+    Description: Zip file key in the S3 bucket
+  VersionLabel:
+    Type: String
+    Description: Application version label
+
+Resources:
+
+  FlaskApp:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: flask-login-app
+      Description: Flask login app
+
+  FlaskAppEnv:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      EnvironmentName: flask-login-env
+      ApplicationName: !Ref FlaskApp
+      SolutionStackName: "64bit Amazon Linux 2 v5.9.7 running Python 3.11"
+      OptionSettings:
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: InstanceType
+          Value: t2.micro
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: FLASK_ENV
+          Value: production
+      VersionLabel: !Ref VersionLabel
+      SourceBundle:
+        S3Bucket: !Ref S3BucketName
+        S3Key: !Ref S3Key
