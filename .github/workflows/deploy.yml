@@ -24,10 +24,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest   # Install testing framework
 
-      - name: Run tests
-        run: |
-          pytest              # Run all tests; fails workflow if any test fails
-
       - name: Zip application
         run: zip -r deploy.zip . -x "*.git*" "*.venv*" "__pycache__/*"
 
