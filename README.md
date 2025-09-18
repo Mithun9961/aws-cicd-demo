@@ -21,10 +21,10 @@ It includes a login page and a simple dashboard to demonstrate deployment automa
  📂 Project Structure
 
 
-/app.py               # Flask application
-/requirements.txt     # Python dependencies
-/Procfile             # EB startup config
-/templates/           # HTML templates
+/app.py
+/requirements.txt
+/Procfile
+/templates/
 ├── login.html
 └── dashboard.html
 
@@ -88,7 +88,8 @@ Once deployed, open the Elastic Beanstalk environment URL and login using:
 
 ## 📊 Architecture Diagram
 
-(Include your draw\.io or Lucidchart diagram here showing: GitHub → GitHub Actions → AWS Elastic Beanstalk)
+
+<img width="1916" height="564" alt="Screenshot 2025-09-18 221230" src="https://github.com/user-attachments/assets/480e08fb-fcbd-40d4-ba58-04cd1a379e9a" />
 
 
 
